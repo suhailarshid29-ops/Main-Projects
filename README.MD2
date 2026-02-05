@@ -1,0 +1,47 @@
+# AWS EC2 Web Servers with Load Balancer and Auto Scaling
+
+## Project Overview
+This project demonstrates a highly available and scalable web application deployed on AWS using EC2 instances, Application Load Balancer (ALB), Launch Templates, custom AMIs, and Auto Scaling Groups (ASG).
+
+The goal was to create a fault-tolerant architecture where traffic is distributed across multiple web servers automatically.
+
+---
+
+## AWS Services Used
+- **EC2 Instances**: Web servers running Apache
+- **Application Load Balancer (ALB)**: Distributes traffic evenly
+- **Auto Scaling Group (ASG)**: Maintains desired number of instances
+- **Launch Template**: Automated instance provisioning
+- **Custom AMI**: Captures pre-configured web server
+- **Security Groups**: Control inbound traffic
+- **Target Groups & Health Checks**: Ensure instance availability
+
+---
+
+## Implementation Steps
+1. Launched a working EC2 instance with Apache installed and a test webpage.  
+2. Created a custom AMI from the working instance.  
+3. Created a Launch Template using the custom AMI and security groups.  
+4. Configured an Auto Scaling Group with minimum/desired capacity = 2.  
+5. Created an Application Load Balancer and attached it to a Target Group.  
+6. Verified that traffic is routed to multiple instances and health checks pass.  
+7. Tested public IPs of instances and ALB DNS to confirm website is accessible.
+
+---
+
+## Outcome
+- Web traffic is distributed across two EC2 instances automatically.  
+- Auto Scaling ensures high availability and fault tolerance.  
+- Load Balancer correctly routes traffic and health checks are passing.  
+- Project demonstrates real-world AWS deployment and scalability best practices.
+
+---
+
+## Optional Startup Script (userdata.sh)
+```bash
+#!/bin/bash
+yum update -y
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+echo "<h1>Web Server is Running</h1>" > /var/www/html/index.html
